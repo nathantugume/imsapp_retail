@@ -1,0 +1,75 @@
+# Configuration files with sensitive data
+config/config.php
+config/branding.php
+
+# Database backups
+*.sql
+*.sql.gz
+backups/
+migrations/*.sql
+
+# Generated invoices (user data)
+Invoices/*.pdf
+
+# Logs
+*.log
+error_log
+debug.log
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Backup files
+*_backup.php
+*_old.php
+*.backup
+*.bak
+
+# Node modules (if using npm)
+node_modules/
+package-lock.json
+
+# Composer
+vendor/
+composer.lock
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Test files
+test*.php
+test*.html
+debug*.php
+debug*.html
+
+# Desktop application files
+desktop/downloads/
+desktop/runtime/
+
+# Cache
+cache/
+*.cache
+
+# User uploads (if any)
+uploads/
+images/uploads/
+
+# Session files
+sessions/
+

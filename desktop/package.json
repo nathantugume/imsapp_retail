@@ -1,0 +1,81 @@
+{
+  "name": "ims-desktop",
+  "version": "1.0.0",
+  "description": "Inventory Management System - Desktop Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac", 
+    "build-linux": "electron-builder --linux",
+    "dist": "npm run build",
+    "postinstall": "electron-builder install-app-deps",
+    "setup": "node setup.js"
+  },
+  "keywords": [
+    "inventory",
+    "management", 
+    "desktop",
+    "php",
+    "electron"
+  ],
+  "author": "Your Company",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.10",
+    "node-fetch": "^2.7.0"
+  },
+  "build": {
+    "appId": "com.yourcompany.ims",
+    "productName": "Inventory Management System",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!node_modules",
+      "!dist", 
+      "!*.md",
+      "!downloads"
+    ],
+    "extraResources": [
+      {
+        "from": "../",
+        "to": "app",
+        "filter": [
+          "**/*",
+          "!node_modules",
+          "!dist",
+          "!desktop",
+          "!*.md"
+        ]
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg", 
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico"
+    }
+  }
+}

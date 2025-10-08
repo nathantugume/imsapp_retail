@@ -1,0 +1,274 @@
+/* Custom CSS for Enhanced Product Form */
+
+/* Form validation styles */
+.form-control.is-valid {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Enhanced modal styling */
+.modal-lg {
+    max-width: 800px;
+}
+
+.modal-header.bg-primary {
+    background-color: #007bff !important;
+    color: white;
+}
+
+/* Profit preview styling */
+#profit-preview {
+    border-radius: 0.375rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+#profit-preview.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+#profit-preview.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeaa7;
+    color: #856404;
+}
+
+/* Loading spinner */
+.fa-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Custom styles for the new edit form */
+.bg-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.bg-gradient-light {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.modal-xl {
+    max-width: 1200px;
+}
+
+.form-select-lg, .form-control-lg {
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+}
+
+.input-group-lg .input-group-text {
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+}
+
+.card.shadow-sm {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: box-shadow 0.15s ease-in-out;
+}
+
+.card.shadow-sm:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    background-color: #f8f9fa;
+}
+
+.form-label.fw-bold {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+.form-text {
+    font-size: 0.875rem;
+    color: #6c757d;
+    margin-top: 0.25rem;
+}
+
+.btn-lg {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.modal-footer.bg-light {
+    border-top: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+}
+
+/* Profit analysis card styling */
+#update-profit-preview .h4 {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+#update-profit-preview .border-end {
+    border-right: 2px solid #dee2e6 !important;
+}
+
+/* Enhanced form validation styles */
+.form-control:focus, .form-select:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+}
+
+.form-control.is-valid {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+.form-control.is-invalid {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .modal-xl {
+        max-width: 95%;
+        margin: 1rem auto;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .btn-lg {
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+    }
+}
+
+/* Animation for profit preview */
+#update-profit-preview {
+    animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Enhanced table styles */
+.table-hover tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.05);
+}
+
+.thead-dark th {
+    background-color: #343a40;
+    border-color: #454d55;
+    color: white;
+    font-weight: 600;
+}
+
+.panel-default {
+    border-color: #ddd;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.panel-heading {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    padding: 10px 15px;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+.dataTables_wrapper {
+    margin-top: 15px;
+}
+
+.badge {
+    font-size: 0.75em;
+    padding: 0.25em 0.6em;
+}
+
+.badge-info {
+    background-color: #17a2b8;
+}
+
+.badge-primary {
+    background-color: #007bff;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* DataTable Search Styling */
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 15px;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    border: 2px solid #007bff;
+    border-radius: 20px;
+    padding: 8px 15px;
+    font-size: 14px;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    background-color: #fff;
+}
+
+.dataTables_wrapper .dataTables_filter label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 4px 8px;
+    background-color: #fff;
+}
+
+.dataTables_wrapper .dataTables_info {
+    color: #6c757d;
+    font-size: 14px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border-radius: 4px;
+    margin: 0 2px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: #0056b3 !important;
+    border-color: #0056b3 !important;
+    color: white !important;
+}
