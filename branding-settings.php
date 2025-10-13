@@ -14,8 +14,14 @@ if($_SESSION['LOGGEDIN']['role'] != "Master") {
 
 require_once 'config/branding.php';
 
+// Debug: Log all POST data
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    error_log("POST received: " . print_r($_POST, true));
+}
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_branding'])) {
+    error_log("Save branding triggered");
     try {
         // Collect updates from form
         $updates = [
@@ -453,12 +459,21 @@ function updatePreview() {
 }
 
 // Form submission with confirmation
-var form = document.querySelector('form');
-if (form) {
-    form.addEventListener('submit', function(e) {
+$(document).ready(function() {
+    var form = $('form[method="POST"]');
+    
+    if (form.length === 0) {
+        console.error('Form not found!');
+        return;
+    }
+    
+    console.log('Form found, attaching submit handler');
+    
+    form.on('submit', function(e) {
         e.preventDefault();
         
         console.log('Form submit triggered');
+        var formElement = this;
         
         Swal.fire({
             title: 'Save Branding Settings?',
@@ -483,16 +498,14 @@ if (form) {
                     }
                 });
                 
-                // Submit the form
-                this.submit();
+                // Submit the form using native submit (bypasses jQuery event)
+                formElement.submit();
             } else {
                 console.log('User cancelled');
             }
         });
     });
-} else {
-    console.error('Form not found!');
-}
+});
 </script>
 
 <?php include("common/footer.php"); ?>
