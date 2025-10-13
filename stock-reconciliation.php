@@ -7,6 +7,8 @@ if(!isset($_SESSION['LOGGEDIN'])){
 
 // Check if user has permission (Master users can approve, all users can create)
 $userRole = $_SESSION['LOGGEDIN']['role'];
+
+$page_title = "Stock Reconciliation";
 ?>
 <?php include('common/top.php'); ?>
 <body>

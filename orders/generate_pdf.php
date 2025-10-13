@@ -145,7 +145,7 @@ try {
     $pdf->Cell(30,8,$row[0]['payment_method'],1,1,"R");
 
     $pdf->SetY(255);
-    $pdf->Cell(175,15," Mini Price Hardware",0,1,"R");
+    $pdf->Cell(175,15," ".$businessName,0,1,"R");
     $pdf->SetFont("Arial","", 12);
     $pdf->SetY(270);
     $pdf->Cell(180,5,"------------------------------------------",0,1,"R");

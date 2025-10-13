@@ -1,6 +1,7 @@
 <?php
 // Include the proper database connection
 require_once("init/init.php");
+require_once("config/branding.php");
 // $dbcon is already initialized in init.php as a singleton
 $pdo = $dbcon->connect();
 
@@ -208,7 +209,7 @@ foreach($reportData as $row) {
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Reports - Mini Price Hardware</title>
+		<title>Reports - <?php echo htmlspecialchars(Branding::getBusinessName()); ?></title>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/jquery.js"></script>
 		<script src="js/jquery.dataTables.min.js"></script>

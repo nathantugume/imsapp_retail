@@ -3,6 +3,8 @@
 if(!isset($_SESSION['LOGGEDIN'])){
     header("location:login.php?unauth=unauthorized access?");
 }
+
+$page_title = "Products";
 ?>
 <?php include('common/top.php'); ?>
 <link rel="stylesheet" href="css/custom.css">

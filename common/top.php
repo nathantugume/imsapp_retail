@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>MUGISHA ENTERPRISES LIMITED </title>
+		<?php 
+		// Load branding for page title
+		if (!class_exists('Branding')) {
+			require_once __DIR__ . '/../config/branding.php';
+		}
+		// Allow pages to set custom title, otherwise use business name
+		$pageTitle = isset($page_title) ? $page_title : 'IMS';
+		$businessName = Branding::getBusinessName();
+		?>
+		<title><?php echo htmlspecialchars($pageTitle . ' - ' . $businessName); ?></title>
 		<script src="./js/jquery.min.js"></script>
 		<script src="./js/bootstrap.js"></script>
 	<link rel="stylesheet" href="./css/bootstrap.min.css" />

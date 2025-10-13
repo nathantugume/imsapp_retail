@@ -4,10 +4,14 @@ session_start();
 if(!isset($_SESSION['LOGGEDIN'])){
     header("location:login.php?unauth=unauthorized access?");
 }
+
+require_once 'config/branding.php';
+$businessName = Branding::getBusinessName();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
+<title>Create Order - <?php echo htmlspecialchars($businessName); ?></title>
 
  <script src="js/jquery.min.js"></script>
  <script src="js/bootstrap.js"></script>
@@ -66,7 +70,7 @@ if(!isset($_SESSION['LOGGEDIN'])){
       <div class="container"><br>
         <div>
           <button  class="float-right" ><span>Username :</span><?php echo $_SESSION['LOGGEDIN']['name']; ?></button>
-          <h2 align="center" class="">Mini Price Hardware</h2>
+          <h2 align="center" class=""><?php echo htmlspecialchars($businessName); ?></h2>
         </div>
         <!-- <div id="order-error"></div> -->
           <nav class="navbar navbar-inverse">

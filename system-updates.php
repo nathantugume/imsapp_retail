@@ -15,6 +15,8 @@ if($_SESSION['LOGGEDIN']['role'] != "Master") {
 require_once 'system/UpdateChecker.php';
 $checker = new UpdateChecker();
 $current = $checker->getCurrentVersion();
+
+$page_title = "System Updates";
 ?>
 <?php include('common/top.php'); ?>
 <link rel="stylesheet" href="css/custom.css">

@@ -4,6 +4,8 @@ session_start();
 if(!isset($_SESSION['LOGGEDIN'])){
     header("location:login.php?unauth=unauthorized access?");
 }
+
+$page_title = "Users";
 ?>
 <?php include('common/top.php'); ?>
 <body>

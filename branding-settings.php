@@ -67,6 +67,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_branding'])) {
 }
 
 $currentSettings = Branding::getAll();
+
+$page_title = "Branding Settings";
 ?>
 <?php include('common/top.php'); ?>
 <link rel="stylesheet" href="css/custom.css">

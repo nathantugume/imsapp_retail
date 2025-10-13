@@ -1,6 +1,7 @@
 <?php
 // Include the proper database connection
 require_once("init/init.php");
+require_once("config/branding.php");
 // $dbcon is already initialized in init.php as a singleton
 $pdo = $dbcon->connect();
 
@@ -48,7 +49,7 @@ if($userStatus == '0'){
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Mini Price Hardware</title>
+		<title><?php echo htmlspecialchars(Branding::getBusinessName()); ?> - Dashboard</title>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/jquery.js"></script>
 		<script src="js/jquery.dataTables.min.js"></script>

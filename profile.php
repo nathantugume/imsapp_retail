@@ -4,6 +4,7 @@ if(!isset($_SESSION['LOGGEDIN'])){
     header('location:login.php');
 }
 
+$page_title = "Profile";
 include("common/top.php"); 
 
 ?>
