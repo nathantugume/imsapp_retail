@@ -37,6 +37,9 @@ $(document).ready(function(){
 			
 			 	$(".total_item").html('<h1>'+data.item+'</h1>');
 				
+				// Update active products count in stock value panel (consistent sizing)
+				$("#active-products-count").html(parseFloat(data.item).toLocaleString('en-US'));
+				
 				// Calculate average stock value per item
 				if(data.stock_value && data.item > 0){
 					var avgValue = parseFloat(data.stock_value) / parseFloat(data.item);
@@ -47,6 +50,7 @@ $(document).ready(function(){
 
 			}else{
 			  	$(".total_item").html('<h1>00</h1>');
+				$("#active-products-count").html('0');
 				$("#avg-stock-value").html('UGX 0.00');
 
 			}

@@ -392,14 +392,14 @@ if($userStatus == '0'){
 					<span class="pull-right"><small><i class="fas fa-info-circle"></i> Based on buying price × stock quantity</small></span>
 				</div>
 				<div class="panel-body" align="center" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
-					<h1 style="color: #28a745; font-size: 3em; margin: 20px 0;">
+					<h4 style="color: #28a745; font-size: 3em; margin: 20px 0;">
 						<i class="fas fa-dollar-sign"></i> UGX <?php echo number_format($totalStockValue, 2); ?>
-					</h1>
+					</h4>
 					<div class="row" style="margin-top: 20px;">
 						<div class="col-md-4">
 							<div style="padding: 10px; background: white; border-radius: 5px; margin: 5px;">
 								<h4 style="color: #667eea; margin: 5px 0;"><i class="fas fa-boxes"></i> Active Products</h4>
-								<p class="total_item" style="font-size: 1.5em; font-weight: bold; margin: 5px 0;">Loading...</p>
+								<p id="active-products-count" style="font-size: 1.5em; font-weight: bold; margin: 5px 0;">Loading...</p>
 							</div>
 						</div>
 						<div class="col-md-4">
