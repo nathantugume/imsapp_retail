@@ -16,28 +16,47 @@ require_once 'config/branding.php';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_branding'])) {
-    // Collect updates from form
-    $updates = [
-        'business_name' => $_POST['business_name'] ?? 'Mini Price Hardware',
-        'business_name_short' => $_POST['business_name_short'] ?? 'Mini Price',
-        'business_tagline' => $_POST['business_tagline'] ?? '',
-        'business_address' => $_POST['business_address'] ?? '',
-        'business_phone' => $_POST['business_phone'] ?? '',
-        'business_email' => $_POST['business_email'] ?? '',
-        'color_primary' => $_POST['color_primary'] ?? '#667eea',
-        'color_secondary' => $_POST['color_secondary'] ?? '#764ba2',
-        'currency_symbol' => $_POST['currency_symbol'] ?? 'ugx',
-        'low_stock_threshold' => (int)($_POST['low_stock_threshold'] ?? 30),
-        'critical_stock_threshold' => (int)($_POST['critical_stock_threshold'] ?? 10),
-        'expiry_warning_days' => (int)($_POST['expiry_warning_days'] ?? 90),
-        'expiry_critical_days' => (int)($_POST['expiry_critical_days'] ?? 30),
-    ];
-    
-    // Save to JSON file using Branding class
-    if (Branding::saveSettings($updates)) {
-        $success_message = "Branding settings saved to branding.json successfully!";
-    } else {
-        $error_message = "Failed to save branding settings. Check file permissions on config/branding.json.";
+    try {
+        // Collect updates from form
+        $updates = [
+            'business_name' => trim($_POST['business_name'] ?? 'Mini Price Hardware'),
+            'business_name_short' => trim($_POST['business_name_short'] ?? 'Mini Price'),
+            'business_tagline' => trim($_POST['business_tagline'] ?? ''),
+            'business_address' => trim($_POST['business_address'] ?? ''),
+            'business_phone' => trim($_POST['business_phone'] ?? ''),
+            'business_email' => trim($_POST['business_email'] ?? ''),
+            'color_primary' => trim($_POST['color_primary'] ?? '#667eea'),
+            'color_secondary' => trim($_POST['color_secondary'] ?? '#764ba2'),
+            'currency_symbol' => trim($_POST['currency_symbol'] ?? 'ugx'),
+            'low_stock_threshold' => (int)($_POST['low_stock_threshold'] ?? 30),
+            'critical_stock_threshold' => (int)($_POST['critical_stock_threshold'] ?? 10),
+            'expiry_warning_days' => (int)($_POST['expiry_warning_days'] ?? 90),
+            'expiry_critical_days' => (int)($_POST['expiry_critical_days'] ?? 30),
+        ];
+        
+        // Debug: Check file path and permissions
+        $jsonPath = __DIR__ . '/config/branding.json';
+        if (!file_exists($jsonPath)) {
+            throw new Exception("branding.json file not found at: $jsonPath");
+        }
+        
+        if (!is_writable($jsonPath)) {
+            throw new Exception("branding.json is not writable. Current permissions: " . substr(sprintf('%o', fileperms($jsonPath)), -4));
+        }
+        
+        // Save to JSON file using Branding class
+        if (Branding::saveSettings($updates)) {
+            $success_message = "✅ Branding settings saved successfully! Changes are now active across all pages.";
+            
+            // Force reload settings
+            clearstatcache(true, $jsonPath);
+        } else {
+            throw new Exception("saveSettings() returned false. Check error logs.");
+        }
+        
+    } catch (Exception $e) {
+        $error_message = "❌ Save failed: " . $e->getMessage();
+        error_log("Branding save error: " . $e->getMessage());
     }
 }
 
@@ -105,6 +124,16 @@ $currentSettings = Branding::getAll();
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <i class="fa fa-check-circle"></i> <?php echo $success_message; ?>
     </div>
+    <script>
+    // Show SweetAlert on success
+    Swal.fire({
+        title: 'Settings Saved!',
+        html: '<p><?php echo addslashes($success_message); ?></p><p><small>Your branding changes are now active across all pages.</small></p>',
+        icon: 'success',
+        confirmButtonText: 'Great!',
+        confirmButtonColor: '#28a745'
+    });
+    </script>
     <?php endif; ?>
     
     <?php if (isset($error_message)): ?>
@@ -112,6 +141,16 @@ $currentSettings = Branding::getAll();
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         <i class="fa fa-exclamation-circle"></i> <?php echo $error_message; ?>
     </div>
+    <script>
+    // Show SweetAlert on error
+    Swal.fire({
+        title: 'Save Failed',
+        html: '<p><?php echo addslashes($error_message); ?></p><p><small>Please check the console for more details.</small></p>',
+        icon: 'error',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#dc3545'
+    });
+    </script>
     <?php endif; ?>
 
     <div class="branding-card">
@@ -414,23 +453,46 @@ function updatePreview() {
 }
 
 // Form submission with confirmation
-document.querySelector('form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    Swal.fire({
-        title: 'Save Branding Settings?',
-        text: 'This will update your application branding immediately.',
-        icon: 'question',
-        showCancelButton: true,
-        confirmButtonText: 'Yes, Save Changes',
-        cancelButtonText: 'Cancel',
-        confirmButtonColor: '#667eea'
-    }).then((result) => {
-        if (result.isConfirmed) {
-            this.submit();
-        }
+var form = document.querySelector('form');
+if (form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        console.log('Form submit triggered');
+        
+        Swal.fire({
+            title: 'Save Branding Settings?',
+            text: 'This will update your application branding immediately.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, Save Changes',
+            cancelButtonText: 'Cancel',
+            confirmButtonColor: '#667eea'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log('User confirmed, submitting form...');
+                
+                // Show loading indicator
+                Swal.fire({
+                    title: 'Saving...',
+                    text: 'Updating branding settings',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                
+                // Submit the form
+                this.submit();
+            } else {
+                console.log('User cancelled');
+            }
+        });
     });
-});
+} else {
+    console.error('Form not found!');
+}
 </script>
 
 <?php include("common/footer.php"); ?>
