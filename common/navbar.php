@@ -8,12 +8,13 @@
 				<a href="index.php" class="navbar-brand">Home</a>
 			</div>
 			<ul class="nav navbar-nav">
-			<?php if($_SESSION['LOGGEDIN']['role']  =="Master") { ?>
-				<li><a href="./user.php">User</a></li>
-				<li><a href="./category.php">Category</a></li>
-				<li><a href="./brand.php">Brand</a></li>
-				<li><a href="./migrations.php">Database Migrations</a></li>
-			<?php } ?>
+		<?php if($_SESSION['LOGGEDIN']['role']  =="Master") { ?>
+			<li><a href="./user.php">User</a></li>
+			<li><a href="./category.php">Category</a></li>
+			<li><a href="./brand.php">Brand</a></li>
+			<li><a href="./migrations.php">Database Migrations</a></li>
+			<li><a href="./system-updates.php"><i class="fa fa-cloud-download"></i> Updates <span id="update-badge" class="badge" style="background-color: #f44336; display:none;">NEW</span></a></li>
+		<?php } ?>
 		<!-- Both Master and User roles can access these -->
 		<li><a href="./product.php">Product</a></li>
 		<li><a href="./order.php">Order</a></li>
