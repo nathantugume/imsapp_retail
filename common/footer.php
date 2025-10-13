@@ -1,7 +1,15 @@
 </div>
 <br>
-<div style="background:#273c75; width: 100%; height: 30px; line-height: 30px; text-align: center; border-radius: 2px;color: white;">
-	<p>All Rights Reserved @ 2025 Mini Price Hardware </p>
+<?php 
+// Load branding for footer
+if (!class_exists('Branding')) {
+    require_once __DIR__ . '/../config/branding.php';
+}
+$footerBusinessName = Branding::getBusinessName();
+$footerPrimaryColor = Branding::get('color_primary', '#273c75');
+?>
+<div style="background:<?php echo $footerPrimaryColor; ?>; width: 100%; height: 30px; line-height: 30px; text-align: center; border-radius: 2px;color: white;">
+	<p>All Rights Reserved © <?php echo date('Y'); ?> <?php echo htmlspecialchars($footerBusinessName); ?></p>
 </div>
 
 <?php if(isset($_SESSION['LOGGEDIN']) && $_SESSION['LOGGEDIN']['role'] == "Master"): ?>
