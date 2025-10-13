@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=IMS Retail - Mini Price Hardware
+Comment=Inventory Management System - Retail Version
+Exec=/home/nathan/shop_mgt/imsapp/desktop/start_ims.sh
+Icon=/home/nathan/shop_mgt/imsapp/desktop/assets/icon.png
+Terminal=true
+Categories=Office;Finance;
+Keywords=inventory;retail;stock;management;
+StartupNotify=true
+Path=/home/nathan/shop_mgt/imsapp
+

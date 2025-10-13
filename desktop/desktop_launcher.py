@@ -29,7 +29,7 @@ class IMSDesktopLauncher:
             'mysql_host': 'localhost',
             'mysql_user': 'root',
             'mysql_password': 'admin',
-            'mysql_database': 'imsapp',
+            'mysql_database': 'imsapp_retail',
             'server_port': self.server_port
         }
     

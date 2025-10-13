@@ -275,6 +275,23 @@ if($userStatus == '0'){
 <body>
 <?php include('common/navbar.php'); ?>
 
+	<!-- Desktop Shortcut Banner (Only show on Windows or if not already dismissed) -->
+	<div id="shortcut-banner" class="row" style="margin-bottom: 20px; display: none;">
+		<div class="col-md-12">
+			<div class="alert alert-info" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+				<button type="button" class="close" onclick="dismissShortcutBanner()" style="color: white; opacity: 0.8;">&times;</button>
+				<h4 style="margin-top: 0; color: white;"><i class="fa fa-desktop"></i> Create Desktop Shortcut</h4>
+				<p style="margin-bottom: 15px;">Launch IMS Retail with one click! Create a desktop shortcut for quick access.</p>
+				<button onclick="createDesktopShortcut()" class="btn btn-light btn-lg">
+					<i class="fa fa-download"></i> Download Shortcut Creator
+				</button>
+				<small style="display: block; margin-top: 10px; opacity: 0.9;">
+					<i class="fa fa-info-circle"></i> One-time setup: Download, run the file, and you're done!
+				</small>
+			</div>
+		</div>
+	</div>
+
 	<div class="row">
 		<?php if($userRole == 'Master'): ?>
 		<!-- Master/Admin Dashboard -->
@@ -618,8 +635,76 @@ if($userStatus == '0'){
                                             </tbody>
                                         </table>
                                     </div>
-                                </div>
-                        </div>
                 </div>
+        </div>
+</div>
 <script src="js/dashboard.js"></script>
+
+<script>
+// Desktop Shortcut Banner Functions
+$(document).ready(function() {
+    // Check if user has dismissed the banner before
+    if (!localStorage.getItem('shortcutBannerDismissed')) {
+        // Show banner after a short delay
+        setTimeout(function() {
+            $('#shortcut-banner').slideDown('slow');
+        }, 2000);
+    }
+});
+
+function createDesktopShortcut() {
+    // Show instructions with SweetAlert
+    Swal.fire({
+        title: 'Create Desktop Shortcut',
+        html: '<div style="text-align: left;">' +
+              '<p><strong>Easy 3-Step Setup:</strong></p>' +
+              '<ol style="font-size: 14px; line-height: 1.8;">' +
+              '<li>Click "Download" below to get the shortcut creator</li>' +
+              '<li>Double-click the downloaded file</li>' +
+              '<li>Find "IMS Retail" icon on your desktop - Done!</li>' +
+              '</ol>' +
+              '<hr>' +
+              '<p style="font-size: 12px; color: #666;">' +
+              '<i class="fa fa-info-circle"></i> The shortcut will launch IMS Retail with one click. ' +
+              'Your browser will open automatically to http://localhost:8080' +
+              '</p>' +
+              '</div>',
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonText: '<i class="fa fa-download"></i> Download Creator',
+        cancelButtonText: 'Cancel',
+        confirmButtonColor: '#667eea',
+        preConfirm: () => {
+            // Trigger download
+            window.location.href = 'desktop/create-shortcut.php';
+            return false;
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Show success message
+            setTimeout(function() {
+                Swal.fire({
+                    title: 'Download Started!',
+                    html: '<p><strong>Next Steps:</strong></p>' +
+                          '<ol style="text-align: left; font-size: 14px;">' +
+                          '<li>Find the downloaded file (usually in Downloads folder)</li>' +
+                          '<li>Double-click: <code>Create_IMS_Retail_Shortcut.vbs</code></li>' +
+                          '<li>Look for "IMS Retail" icon on your desktop</li>' +
+                          '<li>Double-click the desktop icon to launch!</li>' +
+                          '</ol>',
+                    icon: 'success',
+                    confirmButtonText: 'Got it!',
+                    confirmButtonColor: '#28a745'
+                });
+            }, 500);
+        }
+    });
+}
+
+function dismissShortcutBanner() {
+    $('#shortcut-banner').slideUp('slow');
+    localStorage.setItem('shortcutBannerDismissed', 'true');
+}
+</script>
+
 <?php include("common/footer.php"); ?>
