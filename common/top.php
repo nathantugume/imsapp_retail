@@ -4,8 +4,9 @@
 		<title>MUGISHA ENTERPRISES LIMITED </title>
 		<script src="./js/jquery.min.js"></script>
 		<script src="./js/bootstrap.js"></script>
-		<link rel="stylesheet" href="./css/bootstrap.min.css" />
-		<link rel="stylesheet" href="./css/font-awesome.min.css">
+	<link rel="stylesheet" href="./css/bootstrap.min.css" />
+	<link rel="stylesheet" href="./css/font-awesome.min.css">
+	<link rel="stylesheet" href="./css/custom.css">
 		<!-- DataTables CSS and JS -->
 		<link rel="stylesheet" href="./css/dataTables.bootstrap4.min.css">
 		<script src="./js/jquery.dataTables.min.js"></script>

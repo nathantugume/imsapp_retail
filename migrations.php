@@ -18,6 +18,7 @@ $migration = new DatabaseMigration();
     <script src="js/bootstrap.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/sweetalert2.min.css">
     <script src="js/sweetalert2.min.js"></script>
     <style>
