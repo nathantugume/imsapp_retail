@@ -1,6 +1,7 @@
 # Configuration files with sensitive data
 config/config.php
 config/branding.php
+config/branding.json
 
 # Database backups
 *.sql

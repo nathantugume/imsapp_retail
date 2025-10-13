@@ -16,10 +16,7 @@ require_once 'config/branding.php';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_branding'])) {
-    $brandingFile = __DIR__ . '/config/branding.php';
-    $content = file_get_contents($brandingFile);
-    
-    // Update values in the file
+    // Collect updates from form
     $updates = [
         'business_name' => $_POST['business_name'] ?? 'Mini Price Hardware',
         'business_name_short' => $_POST['business_name_short'] ?? 'Mini Price',
@@ -30,24 +27,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_branding'])) {
         'color_primary' => $_POST['color_primary'] ?? '#667eea',
         'color_secondary' => $_POST['color_secondary'] ?? '#764ba2',
         'currency_symbol' => $_POST['currency_symbol'] ?? 'ugx',
-        'low_stock_threshold' => $_POST['low_stock_threshold'] ?? 30,
-        'critical_stock_threshold' => $_POST['critical_stock_threshold'] ?? 10,
-        'expiry_warning_days' => $_POST['expiry_warning_days'] ?? 90,
-        'expiry_critical_days' => $_POST['expiry_critical_days'] ?? 30,
+        'low_stock_threshold' => (int)($_POST['low_stock_threshold'] ?? 30),
+        'critical_stock_threshold' => (int)($_POST['critical_stock_threshold'] ?? 10),
+        'expiry_warning_days' => (int)($_POST['expiry_warning_days'] ?? 90),
+        'expiry_critical_days' => (int)($_POST['expiry_critical_days'] ?? 30),
     ];
     
-    // Replace each value in the file
-    foreach ($updates as $key => $value) {
-        $pattern = "/('" . $key . "'\s*=>\s*)'[^']*'/";
-        $replacement = "$1'" . addslashes($value) . "'";
-        $content = preg_replace($pattern, $replacement, $content);
-    }
-    
-    // Save the file
-    if (file_put_contents($brandingFile, $content)) {
-        $success_message = "Branding settings updated successfully!";
+    // Save to JSON file using Branding class
+    if (Branding::saveSettings($updates)) {
+        $success_message = "Branding settings saved to branding.json successfully!";
     } else {
-        $error_message = "Failed to save branding settings. Check file permissions.";
+        $error_message = "Failed to save branding settings. Check file permissions on config/branding.json.";
     }
 }
 
@@ -314,8 +304,9 @@ $currentSettings = Branding::getAll();
         <h4><i class="fa fa-question-circle"></i> How to Use Branding Settings</h4>
         
         <div class="alert alert-info">
-            <strong><i class="fa fa-lightbulb-o"></i> File-Based Branding</strong>
-            <p style="margin: 10px 0;">All branding settings are stored in <code>config/branding.php</code> - not in the database!</p>
+            <strong><i class="fa fa-lightbulb-o"></i> JSON-Based Branding</strong>
+            <p style="margin: 10px 0;">All branding settings are stored in <code>config/branding.json</code> - not in the database!</p>
+            <p style="margin: 10px 0;"><small>Changes are saved instantly and apply across all pages. Easy to backup and version control!</small></p>
         </div>
         
         <h5>Quick Customization Examples:</h5>
@@ -387,11 +378,12 @@ $currentSettings = Branding::getAll();
         <div class="alert alert-warning" style="margin-top: 20px;">
             <strong><i class="fa fa-exclamation-triangle"></i> Important Notes:</strong>
             <ul style="margin: 10px 0 0 20px;">
-                <li>Settings are saved to <code>config/branding.php</code> file</li>
-                <li>Changes apply immediately (no database restart needed)</li>
-                <li>File must have write permissions</li>
-                <li>Backup the file before major changes</li>
-                <li>These settings update automatically on GitHub pushes</li>
+                <li>Settings are saved to <code>config/branding.json</code> file (easy to read/edit)</li>
+                <li>Changes apply immediately across all pages (no restart needed)</li>
+                <li>File must have write permissions (chmod 644 or 666)</li>
+                <li>Backup the file before major changes: <code>cp config/branding.json config/branding.backup.json</code></li>
+                <li>JSON format makes it easy to version control and share</li>
+                <li>Protected from GitHub updates (excluded from overwrites)</li>
             </ul>
         </div>
     </div>
