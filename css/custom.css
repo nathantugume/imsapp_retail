@@ -274,61 +274,54 @@
 }
 
 /* ========================================
-   Active Navigation Tab Styling
+   Active Navigation Tab Styling (Wholesale Style)
    ======================================== */
 
 /* Active state for main navigation items */
-.navbar-inverse .navbar-nav > li.active > a {
-    background-color: #667eea !important;
-    color: #ffffff !important;
+.navbar-inverse .navbar-nav > li.active > a,
+.navbar-inverse .navbar-nav > li.active > a:hover,
+.navbar-inverse .navbar-nav > li.active > a:focus {
+    background-color: #080808;
+    color: #ffffff;
     font-weight: 600;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-/* Hover effect for non-active items */
-.navbar-inverse .navbar-nav > li > a:hover {
-    background-color: rgba(102, 126, 234, 0.2) !important;
-    border-radius: 4px;
+    border-bottom: 3px solid #5cb85c;
     transition: all 0.3s ease;
 }
 
 /* Active state for brand/home link */
 .navbar-inverse .navbar-brand.active {
-    background-color: #667eea !important;
-    color: #ffffff !important;
-    font-weight: 700;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 4px;
-    padding: 10px 15px;
-}
-
-/* Active state for dropdown parent */
-.navbar-inverse .navbar-nav > li.dropdown.active > a {
-    background-color: #667eea !important;
+    background-color: #080808;
     color: #ffffff !important;
     font-weight: 600;
-    border-radius: 4px;
+    border-bottom: 3px solid #5cb85c;
 }
 
-/* Active state for dropdown menu items */
-.navbar-inverse .navbar-nav .dropdown-menu > li.active > a {
-    background-color: #667eea !important;
-    color: #ffffff !important;
+/* Dropdown menu active state */
+.navbar-inverse .navbar-nav > .dropdown.active > a,
+.navbar-inverse .navbar-nav > .dropdown.active > a:hover,
+.navbar-inverse .navbar-nav > .dropdown.active > a:focus {
+    background-color: #080808;
+    color: #ffffff;
+}
+
+/* Dropdown menu items active state */
+.dropdown-menu > li.active > a {
+    background-color: #f5f5f5;
+    color: #262626;
     font-weight: 600;
+    border-left: 3px solid #5cb85c;
+    padding-left: 17px;
 }
 
-/* Ensure dropdown hover works well with active state */
-.navbar-inverse .navbar-nav .dropdown-menu > li > a:hover {
-    background-color: #764ba2 !important;
-    color: #ffffff !important;
-}
-
-/* Add smooth transition to all nav links */
-.navbar-inverse .navbar-nav > li > a,
-.navbar-inverse .navbar-brand {
+/* Smooth hover transitions for all nav items */
+.navbar-inverse .navbar-nav > li > a {
     transition: all 0.3s ease;
+}
+
+/* Hover effect for non-active items */
+.navbar-inverse .navbar-nav > li > a:hover {
+    background-color: #222222;
+    border-bottom: 3px solid #337ab7;
 }
 
 /* Enhance the active badge visibility */
