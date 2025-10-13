@@ -2,10 +2,14 @@
 //session_start(); 
 // Get current page for active tab highlighting
 $current_page = basename($_SERVER['PHP_SELF']);
+
+// Load branding settings
+require_once __DIR__ . '/../config/branding.php';
+$businessName = Branding::getBusinessName();
 ?>
 <br>
 <div class="container">
-  <h2 align="center" class="">Mini Price Hardware </h2>
+  <h2 align="center" class=""><?php echo htmlspecialchars($businessName); ?></h2>
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -16,6 +20,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 			<li class="<?php echo ($current_page == 'user.php') ? 'active' : ''; ?>"><a href="./user.php">User</a></li>
 			<li class="<?php echo ($current_page == 'category.php') ? 'active' : ''; ?>"><a href="./category.php">Category</a></li>
 			<li class="<?php echo ($current_page == 'brand.php') ? 'active' : ''; ?>"><a href="./brand.php">Brand</a></li>
+			<li class="<?php echo ($current_page == 'branding-settings.php') ? 'active' : ''; ?>"><a href="./branding-settings.php"><i class="fa fa-paint-brush"></i> Branding</a></li>
 		<?php } ?>
 		<!-- Both Master and User roles can access these -->
 		<li class="<?php echo ($current_page == 'product.php') ? 'active' : ''; ?>"><a href="./product.php">Product</a></li>
