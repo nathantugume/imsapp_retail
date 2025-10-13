@@ -2,10 +2,17 @@
 
 // session_start();
 require_once("../init/init.php");
+require_once("../config/branding.php");
 include("../fpdf/fpdf.php");
 
 // Suppress deprecation warnings for FPDF
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_STRICT);
+
+// Get branding settings
+$businessName = Branding::getBusinessName();
+$businessAddress = Branding::get('business_address', 'Kampala, Uganda');
+$businessPhone = Branding::get('business_phone', '+256 XXX XXXXXX');
+$currencySymbol = strtoupper(Branding::get('currency_symbol', 'UGX'));
 
 // debug($_POST);
 
@@ -16,7 +23,11 @@ if(isset($_POST['order_date'])){
 	$pdf->Rect(5, 5, 200, 287, 'D'); //For A4
 
 	$pdf->SetFont("Arial","B", 16);
-	$pdf->Cell(190,15,"Mini Price Hardware",1,1,"C");
+	$pdf->Cell(190,10,$businessName,1,1,"C");
+	
+	// Add business contact info
+	$pdf->SetFont("Arial","", 10);
+	$pdf->Cell(190,5,$businessAddress . " | Tel: " . $businessPhone,1,1,"C");
 
 		$pdf->SetFont("Arial",null,12);
 		$pdf->SetFont("Arial","B", 12);
@@ -36,11 +47,11 @@ if(isset($_POST['order_date'])){
 		$pdf->SetY(49);
 		$pdf->SetFont("Arial","B", 12);
 		$pdf->Cell(50,8,"",0,1);
-		$pdf->Cell(10,8," S.N. ",1,0,"C");
-		$pdf->Cell(100,8,"Services/Product Name",1,0,"C");
-		$pdf->Cell(25,8,"Quantity",1,0,"C");
-		$pdf->Cell(25,8,"Price",1,0,"C");
-		$pdf->Cell(30,8,"Total (UGX)",1,1,"C");
+	$pdf->Cell(10,8," S.N. ",1,0,"C");
+	$pdf->Cell(100,8,"Services/Product Name",1,0,"C");
+	$pdf->Cell(25,8,"Quantity",1,0,"C");
+	$pdf->Cell(25,8,"Price",1,0,"C");
+	$pdf->Cell(30,8,"Total (".$currencySymbol.")",1,1,"C");
 
 		$pdf->SetFont("Arial","", 12);
 		for($i=0; $i < count($_POST['price']); $i++){ 
