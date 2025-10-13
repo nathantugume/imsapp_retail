@@ -393,7 +393,7 @@ if($userStatus == '0'){
 				</div>
 				<div class="panel-body" align="center" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
 					<h4 style="color: #28a745; font-size: 3em; margin: 20px 0;">
-						<i class="fas fa-dollar-sign"></i> UGX <?php echo number_format($totalStockValue, 2); ?>
+						<i class="fas fa-chart-line"></i> UGX <?php echo number_format($totalStockValue, 2); ?>
 					</h4>
 					<div class="row" style="margin-top: 20px;">
 						<div class="col-md-4">
