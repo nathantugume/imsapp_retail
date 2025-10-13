@@ -295,6 +295,27 @@ $(document).ready(function() {
     }
     
     function showUpdateAvailable(current, latest) {
+        // Show SweetAlert notification
+        Swal.fire({
+            title: 'Update Available!',
+            html: '<div style="text-align: left;">' +
+                  '<p><strong>A new version is available for installation.</strong></p>' +
+                  '<hr>' +
+                  '<p><i class="fa fa-arrow-up"></i> <strong>New Version:</strong> ' + latest.version + ' <span class="badge badge-success">NEW</span></p>' +
+                  '<p><i class="fa fa-code-branch"></i> <strong>Current:</strong> ' + current.version + '</p>' +
+                  '<p><i class="fa fa-calendar"></i> <strong>Released:</strong> ' + latest.date + '</p>' +
+                  '<p><i class="fa fa-user"></i> <strong>Author:</strong> ' + latest.author + '</p>' +
+                  '<hr>' +
+                  '<p><strong>What\'s New:</strong></p>' +
+                  '<p style="font-style: italic; color: #666;">' + latest.message + '</p>' +
+                  '</div>',
+            icon: 'info',
+            confirmButtonText: 'View Details',
+            confirmButtonColor: '#667eea',
+            showCancelButton: true,
+            cancelButtonText: 'Later'
+        });
+        
         var html = '<div class="info-row">' +
             '<span class="info-label">Version:</span>' +
             '<span class="info-value"><strong>' + latest.version + '</strong> <span class="label label-success">NEW</span></span>' +
@@ -322,6 +343,22 @@ $(document).ready(function() {
     }
     
     function showUpToDate(current) {
+        // Show SweetAlert notification
+        Swal.fire({
+            title: 'System Up to Date!',
+            html: '<div style="text-align: left;">' +
+                  '<p><strong>Your system is already running the latest version.</strong></p>' +
+                  '<hr>' +
+                  '<p><i class="fa fa-info-circle"></i> <strong>Current Version:</strong> ' + current.version + '</p>' +
+                  '<p><i class="fa fa-code-branch"></i> <strong>Commit:</strong> ' + current.commit + '</p>' +
+                  '<p><i class="fa fa-calendar"></i> <strong>Last Updated:</strong> ' + current.date + '</p>' +
+                  '<p><i class="fa fa-git"></i> <strong>Branch:</strong> ' + current.branch + '</p>' +
+                  '</div>',
+            icon: 'success',
+            confirmButtonText: 'Great!',
+            confirmButtonColor: '#28a745'
+        });
+        
         var html = '<div class="alert alert-success" style="margin-bottom: 20px; padding: 15px; border-radius: 8px;">' +
             '<h5 style="margin: 0 0 10px 0;"><i class="fa fa-check-circle"></i> ✅ Already on Latest Version!</h5>' +
             '<p style="margin: 0;">Your system matches the latest commit on GitHub. No update needed.</p>' +
@@ -350,6 +387,15 @@ $(document).ready(function() {
     }
     
     function showError(message) {
+        // Show SweetAlert notification
+        Swal.fire({
+            title: 'Update Check Failed',
+            html: message,
+            icon: 'error',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#dc3545'
+        });
+        
         $('#error-message').html(message);
         $('#error-section').show();
     }
