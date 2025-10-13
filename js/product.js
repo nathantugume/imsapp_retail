@@ -1,5 +1,35 @@
 $(document).ready(function(){
 		var domain = "http://localhost/imsapp/";
+		
+		// Populate filter dropdowns
+		populate_filters();
+		
+		function populate_filters(){
+			// Fetch categories for filters
+			$.ajax({
+				url:domain+"category/fetch.php",
+				method:"POST",
+				data:{fetch_category:1},
+				success:function(data){
+					var filterSelect = '<option value="">All Categories</option>'
+					$("#filter-category").html(filterSelect+data);
+					console.log("Category filter populated");
+				}
+			});
+			
+			// Fetch brands for filters
+			$.ajax({
+				url:domain+"products/fetch.php",
+				method:"POST",
+				data:{fetch_brand:1},
+				success:function(data){
+					var filterSelect = '<option value="">All Brands</option>'
+					$("#filter-brand").html(filterSelect+data);
+					console.log("Brand filter populated");
+				}
+			});
+		}
+		
 		fetch_category();
 		function  fetch_category(){
 			$.ajax({
@@ -11,7 +41,7 @@ $(document).ready(function(){
 					var select = '<option value="">Select Category</option>'
 					$("#category_id").html(select+data);
 					$("#update_category_id").html(select+data);
-					console.log("Categories loaded:", data);
+					console.log("Categories loaded for forms:", data);
 				},
 				error: function(xhr, status, error) {
 					console.error("Error loading categories:", error);
@@ -31,7 +61,7 @@ $(document).ready(function(){
 					var select = '<option value="">Select Brand</option>'
 					$("#brand_id").html(select+data);
 					$("#update_brand_id").html(select+data);
-					console.log("Brands loaded:", data);
+					console.log("Brands loaded for forms:", data);
 				},
 				error: function(xhr, status, error) {
 					console.error("Error loading brands:", error);
@@ -41,18 +71,23 @@ $(document).ready(function(){
 
 // Fetch all products 
 		fetch_all_products();
-        function fetch_all_products(page){
+        function fetch_all_products(){
         	$.ajax({
         		url:"products/index.php",
         		method:"POST",
-        		data:{page:page},
+        		data:{},  // No page parameter - load all products
         		success:function(data){
         			$("#product-table").html(data);
         			console.log("Product table loaded successfully");
         			
+        			// Destroy existing DataTable if it exists
+        			if($.fn.DataTable.isDataTable('#product_data')){
+        				$('#product_data').DataTable().destroy();
+        			}
+        			
         			// Initialize DataTable with search functionality and export/print buttons
         			setTimeout(function(){
-        				if($("#product_data").length && !$.fn.DataTable.isDataTable('#product_data')){
+        				if($("#product_data").length){
         					$("#product_data").DataTable({
         						"pageLength": 10,
         						"lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
@@ -124,21 +159,60 @@ $(document).ready(function(){
         	})
         }
 
-        $(document).on("click",".page-no",function(){
-        	var page = $(this).attr("id");
-        	// alert(page);
-        	fetch_all_products(page);
-        })
+        // Remove custom pagination handlers - DataTables handles it
+        // Custom pagination handlers removed - DataTables now manages pagination, search, and sorting
 
-        $(document).on("click",".prev",function(){
-        	var prev_id= $(this).attr("prev-id");
-        	fetch_all_products(prev_id);
-        })
-
-        $(document).on("click",".next",function(){
-        	var next_id = $(this).attr("next-id");
-        	fetch_all_products(next_id);
-        })
+        // DataTable Filter Functionality
+        var table;
+        
+        // Wait for DataTable to be initialized
+        setTimeout(function() {
+        	if($.fn.DataTable.isDataTable('#product_data')){
+        		table = $('#product_data').DataTable();
+        		
+        		// Filter by Category
+        		$('#filter-category').on('change', function() {
+        			var selectedCategory = $(this).find('option:selected').text();
+        			if(selectedCategory === 'All Categories' || selectedCategory === '') {
+        				table.column(1).search('').draw(); // Column 1 is Category
+        			} else {
+        				table.column(1).search(selectedCategory).draw();
+        			}
+        			console.log('Filtered by category:', selectedCategory);
+        		});
+        		
+        		// Filter by Brand
+        		$('#filter-brand').on('change', function() {
+        			var selectedBrand = $(this).find('option:selected').text();
+        			if(selectedBrand === 'All Brands' || selectedBrand === '') {
+        				table.column(2).search('').draw(); // Column 2 is Brand
+        			} else {
+        				table.column(2).search(selectedBrand).draw();
+        			}
+        			console.log('Filtered by brand:', selectedBrand);
+        		});
+        		
+        		// Filter by Status
+        		$('#filter-status').on('change', function() {
+        			var selectedStatus = $(this).val();
+        			if(selectedStatus === '') {
+        				table.column(7).search('').draw(); // Column 7 is Status
+        			} else {
+        				table.column(7).search(selectedStatus).draw();
+        			}
+        			console.log('Filtered by status:', selectedStatus);
+        		});
+        		
+        		// Clear all filters
+        		$('#clear-filters').on('click', function() {
+        			$('#filter-category').val('');
+        			$('#filter-brand').val('');
+        			$('#filter-status').val('');
+        			table.search('').columns().search('').draw();
+        			console.log('All filters cleared');
+        		});
+        	}
+        }, 500); // Wait 500ms for DataTable to initialize
 
 // Fetch Single Product
 		$(document).on("click",".view-btn", function(){

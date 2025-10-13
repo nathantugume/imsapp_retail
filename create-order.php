@@ -66,7 +66,7 @@ if(!isset($_SESSION['LOGGEDIN'])){
       <div class="container"><br>
         <div>
           <button  class="float-right" ><span>Username :</span><?php echo $_SESSION['LOGGEDIN']['name']; ?></button>
-          <h2 align="center" class="">St Jude Drugshop and Cosmetic Centre</h2>
+          <h2 align="center" class="">Mini Price Hardware</h2>
         </div>
         <!-- <div id="order-error"></div> -->
           <nav class="navbar navbar-inverse">
@@ -86,7 +86,7 @@ if(!isset($_SESSION['LOGGEDIN'])){
                       </div>
                        <label align="right">Customer Name :</label>
                       <div class="col-sm-6">
-                        <input type="text" name="customer_name" class="form-control form-control-sm" id="customer_name" placeholder="Enter customer name" value="Walk-in Customer">
+                        <input type="text" name="customer_name" class="form-control form-control-sm" id="customer_name" placeholder="Enter customer name">
                         <small id="c_error"></small>
                       </div>
                     </div>

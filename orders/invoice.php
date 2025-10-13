@@ -16,7 +16,7 @@ if(isset($_POST['order_date'])){
 	$pdf->Rect(5, 5, 200, 287, 'D'); //For A4
 
 	$pdf->SetFont("Arial","B", 16);
-	$pdf->Cell(190,15,"St Jude Drugshop and Cosmetic Centre",1,1,"C");
+	$pdf->Cell(190,15,"Mini Price Hardware",1,1,"C");
 
 		$pdf->SetFont("Arial",null,12);
 		$pdf->SetFont("Arial","B", 12);
@@ -93,7 +93,7 @@ if(isset($_POST['order_date'])){
 		$pdf->Cell(30,8,$_POST['payment_method'],1,1,"R");
 
 	$pdf->SetY(255);
-	$pdf->Cell(175,15," St Jude Drugshop and Cosmetic Centre",0,1,"R");
+	$pdf->Cell(175,15," Mini Price Hardware",0,1,"R");
 		$pdf->SetFont("Arial","", 12);
 		$pdf->SetY(270);
 		$pdf->Cell(180,5,"------------------------------------------",0,1,"R");

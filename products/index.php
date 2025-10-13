@@ -2,17 +2,10 @@
 
 require_once("../init/init.php");
 
-if(isset($_POST['page'])){
-	$page = $_POST['page'];
-}else{
-	$page =1;
-}
-$record_per_page = 10;
-$starting_point= ($page-1)*$record_per_page;
-
+// Remove pagination - DataTables will handle it
 $table = '';
 $product = new Product();
-$rows = $product->fetch_all_products($starting_point,$record_per_page);
+$rows = $product->fetch_all_products(0, 10000); // Fetch all products for DataTables
 // debug($rows);
 // echo json_encode($rows);
 if(!empty($rows)){
@@ -72,52 +65,8 @@ $table              .=  '</td>
 $table      .='</tbody>
             </table>';
 
-$total_records = $product->pagination_link();
-$total_pages = ceil($total_records/$record_per_page);
-
-
-    $table      .='<div class="row">
-                        <div class="col-md-6">
-                            <p class="text-muted">Showing '.($starting_point + 1).' to '.min($starting_point + $record_per_page, $total_records).' of '.$total_records.' products</p>
-                        </div>
-                        <div class="col-md-6">
-                            <ul class="pagination pagination-sm pull-right" style="margin: 0;">';
-
-                    if($page > 1){
-                        $previous = ($page -1);
-    $table      .=    '<li class="page-item prev" prev-id="'.$previous.'">
-                            <a class="page-link" style="cursor:pointer; color: #007bff;">
-                                <i class="fa fa-chevron-left"></i> Previous
-                            </a>
-                        </li>';
-                    }
-
-                for($x=1; $x<=$total_pages; $x++){
-                    if($x==$page){
-    $table      .=   '<li class="page-item active">
-                            <a class="page-link" style="background-color: #007bff; border-color: #007bff; color: white;">'.$x.'</a>
-                        </li>';
-                    }else{
-    $table      .=   '<li class="page-item page_no" id='.$x.'>
-                            <a class="page-link" href="#" style="color: #007bff;">'.$x.'</a>
-                        </li>';
-                    }
-                }
-                    if($total_pages > $page){
-                        $next = ($page +1);
-    $table      .='<li class="page-item next" next-id="'.$next.'">
-                            <a class="page-link" style="cursor:pointer; color: #007bff;">
-                                Next <i class="fa fa-chevron-right"></i>
-                            </a>
-                        </li>';
-                    }
-
-    $table      .='</ul>
-                        </div>
-                    </div>
-                </div>';
-
-    echo $table;
+// No custom pagination - DataTables handles everything
+echo $table;
 
 }else{
 

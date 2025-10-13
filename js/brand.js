@@ -1,16 +1,48 @@
 $(document).ready(function(){
 	var domain = "http://localhost/imsapp/";
-	// Fetch brands with pagination
-	fetch_all_brands_with_pagination();
-	function  fetch_all_brands_with_pagination(page){
+	// Fetch all brands (no pagination - DataTables handles it)
+	fetch_all_brands();
+	function  fetch_all_brands(){
 		$.ajax({
 			url:domain+"brands/index.php",
 			method:"POST",
-			// dataType:"JSON",
-			data:{page:page},
+			data:{},
 			success:function(data){
 				$("#brand-table").html(data);
-				//console.log(data);
+				
+				// Destroy existing DataTable if it exists
+				if($.fn.DataTable.isDataTable('#brand_data')){
+					$('#brand_data').DataTable().destroy();
+				}
+				
+				// Initialize DataTable
+				setTimeout(function(){
+					if($("#brand_data").length){
+						$("#brand_data").DataTable({
+							"pageLength": 10,
+							"lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
+							"order": [[ 0, "desc" ]],
+							"responsive": true,
+							"searching": true,
+							"language": {
+								"search": "Search brands:",
+								"lengthMenu": "Show _MENU_ brands per page",
+								"info": "Showing _START_ to _END_ of _TOTAL_ brands",
+								"infoEmpty": "Showing 0 to 0 of 0 brands",
+								"infoFiltered": "(filtered from _MAX_ total brands)",
+								"emptyTable": "No brands found",
+								"zeroRecords": "No matching brands found"
+							},
+							"columnDefs": [
+								{
+									"targets": [3, 4], // Action columns
+									"searchable": false,
+									"orderable": false
+								}
+							]
+						});
+					}
+				}, 100);
 			}
 		})
 	}
@@ -29,14 +61,14 @@ $(document).ready(function(){
 					$("#b-error").html("<span style='color:green;'><b> &#10004;</b></span>");
 					$(".modal-footer").html(data.message);
 					$("#brand-msg").html(data.message);
-					fetch_all_brands_with_pagination();
-				}else if(data.error){
-					$("#brand_name").css("border","2px solid red");
-					$("#b-error").html("<span style='color:red;'>Please enter category name</span>");
-					$(".modal-footer").html(data.message);					
+				fetch_all_brands();
+			}else if(data.error){
+				$("#brand_name").css("border","2px solid red");
+				$("#b-error").html("<span style='color:red;'>Please enter category name</span>");
+				$(".modal-footer").html(data.message);					
 
-				}
-				fetch_all_brands_with_pagination();
+			}
+			fetch_all_brands();
 				// console.log(data);
 			}
 		})
@@ -44,21 +76,7 @@ $(document).ready(function(){
 
 
 
-	$(document).on("click",".paging-link", function(){
-		var page = $(this).attr("id");
-		//alert(page);
-		fetch_all_brands_with_pagination(page);
-
-	})
-	$(document).on("click",".prev-link",function(){
-		var previous = $(this).attr("prev-id");
-		//alert(previous);
-		fetch_all_brands_with_pagination(previous);
-	})
-	$(document).on("click",".next-link",function(){
-		var next = $(this).attr("next-id");
-		fetch_all_brands_with_pagination(next);
-	})
+	// Remove custom pagination handlers - DataTables handles it
 
 	$("body").on("click","#edit",function(){
 		var edit_bid = $(this).attr("edit_id");
@@ -127,16 +145,16 @@ $(document).ready(function(){
 				method:"POST",
 				dataType:"JSON",
 				data:{del_id:del_id},
-				success:function(data){
-					if(data.success){
-						$("#brand-msg").html(data.message);
-						$(".modal-footer").html(data.message);
-						fetch_all_brands_with_pagination();
-					}else if(data.error){
-						$("#brand-msg").html(data.message);
-					}
-					// console.log(data);
+			success:function(data){
+				if(data.success){
+					$("#brand-msg").html(data.message);
+					$(".modal-footer").html(data.message);
+					fetch_all_brands();
+				}else if(data.error){
+					$("#brand-msg").html(data.message);
 				}
+				// console.log(data);
+			}
 			});
 		}
 	})

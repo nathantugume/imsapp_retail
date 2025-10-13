@@ -15,10 +15,12 @@ include('common/top.php'); ?>
                 <div class="panel-heading">
                 	<div class="row">
                 		<div class="col-md-10">
-                			<h3 class="panel-title">Brand List</h3>
+                			<h3 class="panel-title"><i class="fa fa-certificate"></i> Brand List</h3>
                 		</div>
                 		<div class="col-md-2" align="right">
-                			<button type="button" name="add" id="add_button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#brandModal">+Add Brand</button>
+                			<button type="button" name="add" id="add_button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#brandModal">
+                				<i class="fa fa-plus"></i> Add Brand
+                			</button>
                 		</div>
                 	</div>
                 </div>

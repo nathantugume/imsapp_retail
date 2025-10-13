@@ -26,6 +26,37 @@ if(!isset($_SESSION['LOGGEDIN'])){
                 </div>
             </div>
             <div class="panel-body">
+                <!-- Filter Section -->
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label for="filter-category"><i class="fa fa-tags"></i> Filter by Category:</label>
+                        <select id="filter-category" class="form-control form-control-sm">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filter-brand"><i class="fa fa-certificate"></i> Filter by Brand:</label>
+                        <select id="filter-brand" class="form-control form-control-sm">
+                            <option value="">All Brands</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="filter-status"><i class="fa fa-toggle-on"></i> Filter by Status:</label>
+                        <select id="filter-status" class="form-control form-control-sm">
+                            <option value="">All Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>&nbsp;</label>
+                        <button id="clear-filters" class="btn btn-secondary btn-sm btn-block">
+                            <i class="fa fa-refresh"></i> Clear Filters
+                        </button>
+                    </div>
+                </div>
+                <hr>
+                
                 <div class="row">
                     <div id="product-table" class="col-sm-12 table-responsive">
                         <!-- Table is coming from index.php -->

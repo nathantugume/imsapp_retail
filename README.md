@@ -29,7 +29,7 @@
 
 ## 🎯 Overview
 
-This Inventory Management System is designed specifically for **St Jude Drugshop and Cosmetic Centre** but can be easily customized for any retail business. It provides comprehensive tools for managing products, orders, customers, and inventory with real-time tracking and reporting capabilities.
+This Inventory Management System is designed specifically for **Mini Price Hardware** but can be easily customized for any retail business. It provides comprehensive tools for managing products, orders, customers, and inventory with real-time tracking and reporting capabilities.
 
 ### Key Highlights
 
@@ -914,7 +914,7 @@ If you find this project useful, please consider giving it a star! ⭐
 
 ---
 
-**Built with ❤️ for St Jude Drugshop and Cosmetic Centre**
+**Built with ❤️ for Mini Price Hardware**
 
 **Last Updated:** October 8, 2025
 

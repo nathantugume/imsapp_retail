@@ -1,20 +1,10 @@
 <?php
 require_once("../init/init.php");
 
-
-
-$record_per_page = 5;
-//$starting_point = 0;
+// Remove pagination - DataTables will handle it
 $pagination ='';
 
-if (isset($_POST['page'])) {
-	$page = $_POST['page'];
-}else{
-	$page = 1;
-}
-$starting_point = ($page -1) * $record_per_page;
-
-$rows = $brand->fetch_all_brands($_POST,$starting_point,$record_per_page);
+$rows = $brand->fetch_all_brands($_POST, 0, 10000); // Fetch all brands
 // debug($rows);
 if($rows!=''){
 $pagination .='<table id="brand_data" class="table table-bordered table-striped">
@@ -47,34 +37,9 @@ $pagination .=          '</td>
                     </tr>';
 }
 $pagination .= '</tbody>
-            </table>
-            </div>';
+            </table>';
 
-$total_records = $brand->pagination_link();
-$total_pages = ceil($total_records/$record_per_page);
-//debug($total_pages);
-$pagination .=	'<ul class="pagination pull-right" style="margin-top:-15px;">';
-
-					if($page >1){
-						$previous = ($page-1);
-
-$pagination .=		'<li class="page-item prev-link" prev-id="'.$previous.'"><a href="#" class="page-link btn-info" style="cursor:pointer;color:white;">Previous</a></li>';
-					}
-					for($x=1; $x<=$total_pages; $x++){
-						if($x==$page){
-$pagination .=				'<li class="page-item"><a class="page-link" style="background:darkgray; color:white;">'.$x.'</a></li>';
-						}else{
-$pagination .=				'<li class="page-item paging-link" id="'.$x.'"><a class="page-link text-white" style="cursor:pointer;">'.$x.'</a></li>';
-						}
-					}
-					if($total_pages > $page){
-						$next = ($page + 1);
-$pagination .=			'<li class="page-item next-link" next-id="'.$next.'"><a  class="page-link btn-info" style="cursor:pointer; color:white;">Next</a></li>';
-					}
-
-$pagination .=	'</ul>
-				</div>';
-
+// No custom pagination - DataTables handles everything
 echo $pagination;
 
 }else{

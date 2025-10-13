@@ -38,7 +38,7 @@ if($userStatus == '0'){
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>St Jude Drugshop and Cosmetic Centre</title>
+		<title>Mini Price Hardware</title>
 		<script src="js/jquery.min.js"></script>
 		<script src="js/jquery.js"></script>
 		<script src="js/jquery.dataTables.min.js"></script>

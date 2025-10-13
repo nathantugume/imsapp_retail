@@ -15,12 +15,14 @@ if(!isset($_SESSION['LOGGEDIN'])){
                 <div class="panel-heading">
                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-6">
                         <div class="row">
-                            <h3 class="panel-title">Category List</h3>
+                            <h3 class="panel-title"><i class="fa fa-tags"></i> Category List</h3>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6">
                         <div class="row" align="right">
-                             <button type="button" name="add" id="add_button" data-toggle="modal" data-target="#categoryModal" class="btn btn-success btn-sm">+Add Category</button>   		
+                             <button type="button" name="add" id="add_button" data-toggle="modal" data-target="#categoryModal" class="btn btn-success btn-sm">
+                             	<i class="fa fa-plus"></i> Add Category
+                             </button>   		
                         </div>
                     </div>
                   <div style="clear:both"></div>

@@ -15,10 +15,12 @@ if(!isset($_SESSION['LOGGEDIN'])){
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-lg-10 col-md-10 col-sm-8 col-xs-6">
-                            <h3 class="panel-title">Order List</h3>
+                            <h3 class="panel-title"><i class="fa fa-shopping-cart"></i> Order List</h3>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-6" align="right">
-                            <a href="create-order.php"><button class="btn btn-success btn-sm">Create Order</button></a>  
+                            <a href="create-order.php" class="btn btn-success btn-sm">
+                            	<i class="fa fa-plus"></i> Create Order
+                            </a>  
                         </div>
                     </div>
                 </div>
