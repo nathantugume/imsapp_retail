@@ -275,23 +275,6 @@ if($userStatus == '0'){
 <body>
 <?php include('common/navbar.php'); ?>
 
-	<!-- Desktop Shortcut Banner (Only show on Windows or if not already dismissed) -->
-	<div id="shortcut-banner" class="row" style="margin-bottom: 20px; display: none;">
-		<div class="col-md-12">
-			<div class="alert alert-info" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-				<button type="button" class="close" onclick="dismissShortcutBanner()" style="color: white; opacity: 0.8;">&times;</button>
-				<h4 style="margin-top: 0; color: white;"><i class="fa fa-desktop"></i> Create Desktop Shortcut</h4>
-				<p style="margin-bottom: 15px;">Launch IMS Retail with one click! Create a desktop shortcut for quick access.</p>
-				<button onclick="createDesktopShortcut()" class="btn btn-light btn-lg">
-					<i class="fa fa-download"></i> Download Shortcut Creator
-				</button>
-				<small style="display: block; margin-top: 10px; opacity: 0.9;">
-					<i class="fa fa-info-circle"></i> One-time setup: Download, run the file, and you're done!
-				</small>
-			</div>
-		</div>
-	</div>
-
 	<div class="row">
 		<?php if($userRole == 'Master'): ?>
 		<!-- Master/Admin Dashboard -->
@@ -641,64 +624,155 @@ if($userStatus == '0'){
 <script src="js/dashboard.js"></script>
 
 <script>
-// Desktop Shortcut Banner Functions
+// Automatic Desktop Shortcut Creation with OS Detection
 $(document).ready(function() {
-    // Check if user has dismissed the banner before
-    if (!localStorage.getItem('shortcutBannerDismissed')) {
-        // Show banner after a short delay
+    // Detect operating system
+    var os = detectOS();
+    console.log('Detected OS:', os);
+    
+    // Check if shortcut has been offered before
+    var shortcutOffered = localStorage.getItem('shortcutOffered');
+    var shortcutDismissed = localStorage.getItem('shortcutBannerDismissed');
+    
+    // Only show if not previously offered or dismissed
+    if (!shortcutOffered && !shortcutDismissed) {
+        // Show notification after page loads
         setTimeout(function() {
-            $('#shortcut-banner').slideDown('slow');
-        }, 2000);
+            offerDesktopShortcut(os);
+        }, 3000); // 3 second delay for better UX
     }
 });
 
-function createDesktopShortcut() {
-    // Show instructions with SweetAlert
+function detectOS() {
+    var userAgent = window.navigator.userAgent.toLowerCase();
+    var platform = window.navigator.platform.toLowerCase();
+    
+    if (userAgent.indexOf('win') !== -1 || platform.indexOf('win') !== -1) {
+        return 'windows';
+    } else if (userAgent.indexOf('mac') !== -1 || platform.indexOf('mac') !== -1) {
+        return 'mac';
+    } else if (userAgent.indexOf('linux') !== -1 || platform.indexOf('linux') !== -1) {
+        return 'linux';
+    } else {
+        return 'unknown';
+    }
+}
+
+function offerDesktopShortcut(os) {
+    // Only offer for Windows (most common for clients)
+    if (os !== 'windows') {
+        console.log('Desktop shortcut only offered for Windows users');
+        return;
+    }
+    
+    // Mark as offered
+    localStorage.setItem('shortcutOffered', 'true');
+    
+    // Show attractive popup
     Swal.fire({
-        title: 'Create Desktop Shortcut',
+        title: '🖥️ Create Desktop Shortcut?',
         html: '<div style="text-align: left;">' +
-              '<p><strong>Easy 3-Step Setup:</strong></p>' +
-              '<ol style="font-size: 14px; line-height: 1.8;">' +
-              '<li>Click "Download" below to get the shortcut creator</li>' +
-              '<li>Double-click the downloaded file</li>' +
-              '<li>Find "IMS Retail" icon on your desktop - Done!</li>' +
-              '</ol>' +
+              '<p><strong>Quick access to IMS Retail!</strong></p>' +
+              '<p>We can create a desktop shortcut so you can launch this application with just one click.</p>' +
               '<hr>' +
-              '<p style="font-size: 12px; color: #666;">' +
-              '<i class="fa fa-info-circle"></i> The shortcut will launch IMS Retail with one click. ' +
-              'Your browser will open automatically to http://localhost:8080' +
+              '<p><strong>Benefits:</strong></p>' +
+              '<ul style="font-size: 14px;">' +
+              '<li>✅ Launch with one double-click</li>' +
+              '<li>✅ No need to type URLs</li>' +
+              '<li>✅ Professional app experience</li>' +
+              '<li>✅ Automatic server startup</li>' +
+              '</ul>' +
+              '<hr>' +
+              '<p style="font-size: 13px; color: #666;">' +
+              '<strong>How it works:</strong><br>' +
+              '1. Download the shortcut creator (1 second)<br>' +
+              '2. Double-click the downloaded file<br>' +
+              '3. Done! Icon appears on your desktop' +
               '</p>' +
               '</div>',
-        icon: 'info',
+        icon: 'question',
         showCancelButton: true,
-        confirmButtonText: '<i class="fa fa-download"></i> Download Creator',
-        cancelButtonText: 'Cancel',
-        confirmButtonColor: '#667eea',
-        preConfirm: () => {
-            // Trigger download
-            window.location.href = 'desktop/create-shortcut.php';
-            return false;
-        }
+        confirmButtonText: '<i class="fa fa-check"></i> Yes, Create Shortcut',
+        cancelButtonText: 'Maybe Later',
+        confirmButtonColor: '#28a745',
+        cancelButtonColor: '#6c757d',
+        allowOutsideClick: false,
+        width: '600px'
     }).then((result) => {
         if (result.isConfirmed) {
-            // Show success message
-            setTimeout(function() {
-                Swal.fire({
-                    title: 'Download Started!',
-                    html: '<p><strong>Next Steps:</strong></p>' +
-                          '<ol style="text-align: left; font-size: 14px;">' +
-                          '<li>Find the downloaded file (usually in Downloads folder)</li>' +
-                          '<li>Double-click: <code>Create_IMS_Retail_Shortcut.vbs</code></li>' +
-                          '<li>Look for "IMS Retail" icon on your desktop</li>' +
-                          '<li>Double-click the desktop icon to launch!</li>' +
-                          '</ol>',
-                    icon: 'success',
-                    confirmButtonText: 'Got it!',
-                    confirmButtonColor: '#28a745'
-                });
-            }, 500);
+            downloadShortcutCreator(os);
+        } else {
+            // User declined - don't show again
+            localStorage.setItem('shortcutBannerDismissed', 'true');
         }
     });
+}
+
+function downloadShortcutCreator(os) {
+    var filename = os === 'windows' ? 'Create_IMS_Retail_Shortcut.vbs' : 'install_ims_retail.sh';
+    var action = os === 'windows' ? 'create_windows' : 'create_linux';
+    
+    // Start download
+    $.ajax({
+        url: 'desktop/auto-create-shortcut.php',
+        method: 'POST',
+        data: { action: action, os: os },
+        xhrFields: {
+            responseType: 'blob'
+        },
+        success: function(blob) {
+            // Create download link
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            
+            // Show success instructions
+            Swal.fire({
+                title: 'Download Complete!',
+                html: '<div style="text-align: left;">' +
+                      '<p><strong>✅ Shortcut creator downloaded!</strong></p>' +
+                      '<hr>' +
+                      '<p><strong>Next Steps:</strong></p>' +
+                      '<ol style="font-size: 14px; line-height: 1.8;">' +
+                      '<li>Open your <strong>Downloads</strong> folder</li>' +
+                      '<li>Double-click: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 3px;">' + filename + '</code></li>' +
+                      '<li>The shortcut will be created automatically</li>' +
+                      '<li>Look for <strong>"IMS Retail"</strong> icon on your desktop</li>' +
+                      '</ol>' +
+                      '<hr>' +
+                      '<p style="font-size: 13px; color: #28a745;">' +
+                      '<i class="fa fa-check-circle"></i> From now on, just double-click the desktop icon to launch IMS Retail!' +
+                      '</p>' +
+                      '</div>',
+                icon: 'success',
+                confirmButtonText: 'Great!',
+                confirmButtonColor: '#28a745',
+                width: '600px'
+            });
+            
+            // Mark as completed
+            localStorage.setItem('shortcutBannerDismissed', 'true');
+        },
+        error: function() {
+            Swal.fire({
+                title: 'Download Failed',
+                text: 'Unable to download the shortcut creator. Please try the manual method.',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+        }
+    });
+}
+
+// Manual trigger function (can be called from anywhere)
+function createDesktopShortcut() {
+    var os = detectOS();
+    offerDesktopShortcut(os);
 }
 
 function dismissShortcutBanner() {

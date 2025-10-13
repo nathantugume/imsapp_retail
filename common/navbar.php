@@ -37,8 +37,10 @@ $current_page = basename($_SERVER['PHP_SELF']);
 				<li class="dropdown <?php echo (in_array($current_page, ['profile.php', 'logout.php'])) ? 'active' : ''; ?>">
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="label label-pill label-danger count"></span><?php echo $_SESSION['LOGGEDIN']['name']; ?></a>
 					<ul class="dropdown-menu">
-						<li class="<?php echo ($current_page == 'profile.php') ? 'active' : ''; ?>"><a href="./profile.php">Profile</a></li>
-						<li><a href="./logout.php">Logout</a></li>
+						<li class="<?php echo ($current_page == 'profile.php') ? 'active' : ''; ?>"><a href="./profile.php"><i class="fa fa-user"></i> Profile</a></li>
+						<li><a href="javascript:void(0)" onclick="createDesktopShortcut()"><i class="fa fa-desktop"></i> Create Desktop Shortcut</a></li>
+						<li class="divider"></li>
+						<li><a href="./logout.php"><i class="fa fa-sign-out"></i> Logout</a></li>
 					</ul>
 				</li>
 			</ul>
