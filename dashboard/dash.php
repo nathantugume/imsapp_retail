@@ -11,6 +11,8 @@ if(isset($_POST['user'])){
 	$value = $dashboard->total_order_value();
 	$cash_value = $dashboard->cash_order_value();
 	$credit_card = $dashboard->credit_order_value();
+	$stock_value = $dashboard->total_stock_value();
+	$stock_units = $dashboard->total_stock_units();
 		echo json_encode([
 			"users"=>$users['total_user'],
 			"cat"=>$category['cat'],
@@ -19,6 +21,8 @@ if(isset($_POST['user'])){
 			"order_value"=>$value['value'],
 			"cash_value"=>$cash_value['cash_value'],
 			"credit_card"=>$credit_card['credit_value'],
+			"stock_value"=>$stock_value['stock_value'],
+			"stock_units"=>$stock_units['total_units'],
 
 		]);
 

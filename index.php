@@ -16,6 +16,16 @@ try {
     $monthlyProfit = ["profit" => 0, "revenue" => 0, "cost" => 0];
 }
 
+// Calculate total stock value (stock quantity × buying price)
+try {
+    $stockValueQuery = "SELECT SUM(stock * buying_price) as total_stock_value FROM products WHERE p_status = '1'";
+    $stockValueStmt = $pdo->query($stockValueQuery);
+    $stockValueResult = $stockValueStmt->fetch(PDO::FETCH_ASSOC);
+    $totalStockValue = $stockValueResult['total_stock_value'] ?? 0;
+} catch (Exception $e) {
+    $totalStockValue = 0;
+}
+
 // Session is already started in init.php, so we do not need to start it again
 session_start();
 
@@ -373,6 +383,44 @@ if($userStatus == '0'){
                                 </div>
                 </div>
         </div>
+		
+		<!-- Total Stock Value Panel -->
+		<div class="col-md-12">
+			<div class="panel panel-default" style="border-left: 4px solid #28a745;">
+				<div class="panel-heading" style="background-color: #f8f9fa;">
+					<strong><i class="fas fa-warehouse"></i> Total Stock Value</strong>
+					<span class="pull-right"><small><i class="fas fa-info-circle"></i> Based on buying price × stock quantity</small></span>
+				</div>
+				<div class="panel-body" align="center" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+					<h1 style="color: #28a745; font-size: 3em; margin: 20px 0;">
+						<i class="fas fa-dollar-sign"></i> UGX <?php echo number_format($totalStockValue, 2); ?>
+					</h1>
+					<div class="row" style="margin-top: 20px;">
+						<div class="col-md-4">
+							<div style="padding: 10px; background: white; border-radius: 5px; margin: 5px;">
+								<h4 style="color: #667eea; margin: 5px 0;"><i class="fas fa-boxes"></i> Active Products</h4>
+								<p class="total_item" style="font-size: 1.5em; font-weight: bold; margin: 5px 0;">Loading...</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div style="padding: 10px; background: white; border-radius: 5px; margin: 5px;">
+								<h4 style="color: #667eea; margin: 5px 0;"><i class="fas fa-calculator"></i> Avg. Value/Item</h4>
+								<p id="avg-stock-value" style="font-size: 1.5em; font-weight: bold; margin: 5px 0;">Calculating...</p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div style="padding: 10px; background: white; border-radius: 5px; margin: 5px;">
+								<h4 style="color: #667eea; margin: 5px 0;"><i class="fas fa-cubes"></i> Total Units</h4>
+								<p id="total-stock-units" style="font-size: 1.5em; font-weight: bold; margin: 5px 0;">Calculating...</p>
+							</div>
+						</div>
+					</div>
+					<small style="display: block; margin-top: 15px; color: #6c757d;">
+						<i class="fas fa-clock"></i> Updated: <?php echo date('M d, Y H:i:s'); ?>
+					</small>
+				</div>
+			</div>
+		</div>
 		
 		<!-- Expiry Warnings Panel -->
 		<div class="col-md-12">

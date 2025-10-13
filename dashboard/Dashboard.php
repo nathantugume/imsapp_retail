@@ -99,6 +99,32 @@ class Dashboard{
 		}
 		return ['credit_value'=>0];
 	}
+	
+	public function total_stock_value(){
+		// Calculate total stock value (stock × buying_price)
+		$sql = "SELECT SUM(stock * buying_price) AS total_value FROM products WHERE p_status = '1'";
+		$stmt = $this->dbcon->connect()->prepare($sql);
+		$stmt->execute() OR die($this->dbcon->connect()->error);
+		$data = $stmt->fetch(PDO::FETCH_BOTH);
+		$stock_value = $data['total_value'];
+		if($stock_value){
+			return ['stock_value'=>$stock_value];
+		}
+		return ['stock_value'=>0];
+	}
+	
+	public function total_stock_units(){
+		// Calculate total units in stock
+		$sql = "SELECT SUM(stock) AS total_units FROM products WHERE p_status = '1'";
+		$stmt = $this->dbcon->connect()->prepare($sql);
+		$stmt->execute() OR die($this->dbcon->connect()->error);
+		$data = $stmt->fetch(PDO::FETCH_BOTH);
+		$total_units = $data['total_units'];
+		if($total_units){
+			return ['total_units'=>$total_units];
+		}
+		return ['total_units'=>0];
+	}
 
 
 }

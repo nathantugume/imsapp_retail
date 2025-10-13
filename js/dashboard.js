@@ -33,14 +33,30 @@ $(document).ready(function(){
 
 				  	$(".total_brand").html('<h1>00</h1>');
 				}
-				if(data.item){
+			if(data.item){
+			
+			 	$(".total_item").html('<h1>'+data.item+'</h1>');
 				
-				 	$(".total_item").html('<h1>'+data.item+'</h1>');
-
+				// Calculate average stock value per item
+				if(data.stock_value && data.item > 0){
+					var avgValue = parseFloat(data.stock_value) / parseFloat(data.item);
+					$("#avg-stock-value").html('UGX ' + avgValue.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}));
 				}else{
-				  	$(".total_item").html('<h1>00</h1>');
-
+					$("#avg-stock-value").html('UGX 0.00');
 				}
+
+			}else{
+			  	$(".total_item").html('<h1>00</h1>');
+				$("#avg-stock-value").html('UGX 0.00');
+
+			}
+			
+			// Display total stock units
+			if(data.stock_units){
+				$("#total-stock-units").html(parseFloat(data.stock_units).toLocaleString('en-US'));
+			}else{
+				$("#total-stock-units").html('0');
+			}
 				if(data.order_value){
 				
 				 	$(".total_order_value").html('<h1>'+data.order_value+'</h1>');
