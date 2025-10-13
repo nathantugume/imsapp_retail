@@ -471,9 +471,12 @@ $(document).ready(function() {
     
     form.on('submit', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         
         console.log('Form submit triggered');
-        var formElement = this;
+        var formData = form.serialize() + '&save_branding=1';
+        
+        console.log('Form data:', formData);
         
         Swal.fire({
             title: 'Save Branding Settings?',
@@ -485,7 +488,7 @@ $(document).ready(function() {
             confirmButtonColor: '#667eea'
         }).then((result) => {
             if (result.isConfirmed) {
-                console.log('User confirmed, submitting form...');
+                console.log('User confirmed, saving via AJAX...');
                 
                 // Show loading indicator
                 Swal.fire({
@@ -498,8 +501,26 @@ $(document).ready(function() {
                     }
                 });
                 
-                // Submit the form using native submit (bypasses jQuery event)
-                formElement.submit();
+                // Submit via AJAX for better control
+                $.ajax({
+                    url: 'branding-settings.php',
+                    method: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        console.log('Save successful, reloading page...');
+                        // Reload page to show success message
+                        window.location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Save failed:', error);
+                        Swal.fire({
+                            title: 'Save Failed',
+                            text: 'An error occurred while saving. Check console for details.',
+                            icon: 'error',
+                            confirmButtonColor: '#dc3545'
+                        });
+                    }
+                });
             } else {
                 console.log('User cancelled');
             }
