@@ -337,7 +337,7 @@ $(document).ready(function(){
     						],
     						"columnDefs": [
     							{
-    								"targets": [6, 7], // Action columns
+    								"targets": [6, 7, 8], // Action columns
     								"searchable": false,
     								"orderable": false
     							}
@@ -463,6 +463,31 @@ $(document).ready(function(){
     				alert("Error generating PDF. Please check console for details.");
     			}
     		})
+    })
+
+    $(document).on("click",".del-order-btn", function(){
+    	var del_id = $(this).attr("del-id");
+    	if(confirm("Are you sure you want to delete this order? This action cannot be undone and will restore product stock.")){
+    		$.ajax({
+    			url:"orders/delete.php",
+    			method:"POST",
+    			dataType:"JSON",
+    			data:{del_id:del_id},
+    			success:function(data){
+    				if(data.success){
+    					$("#order-msg").html(data.message);
+    					// Reload the orders table
+    					fetch_all_the_orders();
+    				}else if(data.error){
+    					$("#order-msg").html(data.message);
+    				}
+    			},
+    			error: function(xhr, status, error) {
+    				console.error("Delete Error:", xhr.responseText);
+    				$("#order-msg").html('<div class="alert alert-danger text-danger text-center alert-dismissible"><button type="button" class="close" data-dismiss="alert">&times;</button>Error deleting order. Please try again.</div>');
+    			}
+    		});
+    	}
     })
 
 		

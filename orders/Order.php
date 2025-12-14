@@ -206,6 +206,67 @@ class Order{
 		return false;
 	}
 
+	public function delete_order($order){
+		try {
+			$invoice_no = $order['del_id'];
+			
+			// First, get invoice items to restore stock if needed
+			$sql_invoices = "SELECT product_name, order_qty FROM invoices WHERE invoice_no=?";
+			$stmt_invoices = $this->dbcon->connect()->prepare($sql_invoices);
+			if(is_object($stmt_invoices)){
+				$stmt_invoices->bindValue(1, $invoice_no, PDO::PARAM_INT);
+				$stmt_invoices->execute();
+				$invoice_items = $stmt_invoices->fetchAll(PDO::FETCH_ASSOC);
+				
+				// Restore stock for each product in the invoice
+				if(!empty($invoice_items)){
+					foreach($invoice_items as $item){
+						$sql_restore = "UPDATE products SET stock = stock + ? WHERE product_name=?";
+						$stmt_restore = $this->dbcon->connect()->prepare($sql_restore);
+						if(is_object($stmt_restore)){
+							$stmt_restore->bindValue(1, $item['order_qty'], PDO::PARAM_INT);
+							$stmt_restore->bindValue(2, $item['product_name'], PDO::PARAM_STR);
+							$stmt_restore->execute();
+						}
+					}
+				}
+			}
+			
+			// Delete related invoices first (foreign key constraint)
+			$sql_delete_invoices = "DELETE FROM invoices WHERE invoice_no=?";
+			$stmt_delete_invoices = $this->dbcon->connect()->prepare($sql_delete_invoices);
+			if(is_object($stmt_delete_invoices)){
+				$stmt_delete_invoices->bindValue(1, $invoice_no, PDO::PARAM_INT);
+				$stmt_delete_invoices->execute();
+			}
+			
+			// Delete the order
+			$sql = "DELETE FROM orders WHERE invoice_no=?";
+			$stmt = $this->dbcon->connect()->prepare($sql);
+			if(is_object($stmt)){
+				$stmt->bindValue(1, $invoice_no, PDO::PARAM_INT);
+				$data = $stmt->execute();
+				if($data){
+					return "Deleted_Order";
+				}else{
+					return "Not_Deleted";
+				}
+			}
+			return false;
+		} catch (Exception $e) {
+			// Log the error for debugging
+			error_log("Order Delete Error: " . $e->getMessage());
+			error_log("Order Delete Data: " . json_encode($order));
+			
+			// Return a more specific error based on the exception type
+			if (strpos($e->getMessage(), 'Connection') !== false) {
+				return "Connection_Error";
+			} else {
+				return "Database_Error";
+			}
+		}
+	}
+
 	
 
 }

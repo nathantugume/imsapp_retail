@@ -26,7 +26,7 @@ if(!empty($rows)){
                         <th>Paid Amount</th>
                         <th>Payment</th>
                         <th>Order Date</th>
-                        <th class="text-center" colspan="2" width="1%">Action</th> 
+                        <th class="text-center" colspan="3" width="1%">Action</th> 
                     </tr>
                </thead>
                <tbody>';
@@ -46,6 +46,11 @@ foreach($rows as $row){
                         <td class="text-center">
 						    <button view-id="'.$row->invoice_no.'" class="btn btn-primary btn-sm view-btn" data-toggle="modal" data-target="#Order-View-Modal" title="View Order Details">
 						        <i class="fas fa-eye"></i> View
+						    </button>
+						</td>
+                        <td class="text-center">
+						    <button del-id="'.$row->invoice_no.'" id="del" class="btn btn-danger btn-sm del-order-btn" title="Delete Order">
+						        <i class="fas fa-trash"></i> Delete
 						    </button>
 						</td>
                     </tr>';
